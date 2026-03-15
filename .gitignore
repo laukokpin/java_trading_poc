@@ -1,0 +1,11 @@
+target/
+.idea/
+.vscode/
+*.iml
+*.log
+.DS_Store
+artifacts/gc/*.json
+artifacts/gc/*.out
+artifacts/gc/*.pid
+target/solace.classpath
+
