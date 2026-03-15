@@ -1,0 +1,11 @@
+trading:
+  solace:
+    host: ${TRADING_SOLACE_HOST:localhost:55555}
+    vpn-name: ${TRADING_SOLACE_VPN_NAME:default}
+    username: ${TRADING_SOLACE_USERNAME:admin}
+    password: ${TRADING_SOLACE_PASSWORD:admin}
+    connection-retries: ${TRADING_SOLACE_CONNECTION_RETRIES:20}
+    retry-delay-millis: ${TRADING_SOLACE_RETRY_DELAY_MILLIS:3000}
+    quote-topic: ${TRADING_SOLACE_QUOTE_TOPIC:trading/quotes/v1}
+    order-topic: ${TRADING_SOLACE_ORDER_TOPIC:trading/orders/v1}
+    execution-topic: ${TRADING_SOLACE_EXECUTION_TOPIC:trading/executions/v1}
