@@ -37,7 +37,7 @@ flowchart LR
 - Java 17 (SDKMAN managed)
 - Spring Boot 3.3.5
 - Maven
-- Kafka (Bitnami KRaft image)
+- Kafka (Apache image in KRaft mode)
 - Solace PubSub+ Standard + JCSMP
 - Docker + Docker Compose
 - GitHub Actions CI
