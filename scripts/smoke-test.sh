@@ -12,7 +12,7 @@ cleanup() {
 trap cleanup EXIT
 
 echo "[smoke] Building and starting containers..."
-docker compose -f "$COMPOSE_FILE" up -d --build
+docker compose -f "$COMPOSE_FILE" up -d --build kafka app
 
 echo "[smoke] Waiting for app to become healthy (max ${MAX_WAIT}s)..."
 elapsed=0
