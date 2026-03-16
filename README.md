@@ -130,6 +130,68 @@ Key current finding:
 - Primary: Kafka for stronger CI-friendly integration testing and broad ecosystem familiarity
 - Optional extension: Solace for enterprise broker exposure and explicit tradeoff analysis
 
+## Explaination of This PoC
+
+This project is a compact Java 17 and Spring Boot trading backend proof of concept. It is designed to demonstrate practical engineering signals for a Java trading role rather than simulate a full trading platform.
+
+At a high level, the application exposes REST endpoints for quote and order events. The API layer passes requests into a small service layer, which then delegates to transport-specific implementations. The same trading flow can run in three modes:
+
+- in-memory for the simplest baseline
+- Kafka as the primary event-driven transport
+- Solace as an optional enterprise broker comparison path
+
+The key architectural choice is that the controller and service layers are transport-agnostic. Messaging details are hidden behind interfaces, so the runtime can switch between implementations without changing the API contract.
+
+### What The Project Demonstrates
+
+- Java 17 and Spring Boot service design
+- transport abstraction behind interfaces
+- asynchronous event-driven flow
+- Dockerized local reproducibility
+- smoke-tested runtime validation
+- benchmark-backed JVM and GC analysis
+- enterprise broker exposure through Solace
+
+### How The Main Flow Works
+
+1. HTTP requests enter through the trading API
+2. Quote requests are published through the configured transport
+3. Order requests are consumed and turned into execution events
+4. The active runtime profile determines whether the transport is in-memory, Kafka, or Solace
+
+### Why Kafka Is The Primary Path
+
+Kafka is the primary implementation because it gives the best balance of:
+
+- local reproducibility
+- CI-friendly integration testing
+- familiar event-driven backend patterns
+- straightforward Spring integration
+
+Solace was added as an optional comparison path to show enterprise broker exposure and transport substitution rather than to suggest the app needs multiple brokers in production.
+
+### Why The Business Logic Is Intentionally Simple
+
+The project is intentionally small in business scope. It does not try to model a full trading platform with matching, persistence, replay, or risk controls.
+
+That is deliberate. The goal is to make the architecture, messaging design, operational setup, and performance measurements easy for a reviewer to understand quickly.
+
+### Performance And GC Story
+
+This repo includes a load generator and GC comparison scripts so performance decisions are based on measurements rather than assumptions.
+
+The main finding was:
+
+- tuned G1 reduced the worst observed GC pause
+- tuned G1 hurt throughput and p99 latency under medium and high load
+- baseline G1 remained the better default recommendation
+
+That was an intentional part of the project: showing evidence-based tuning rather than cargo-cult JVM optimization.
+
+### Short POC Version
+
+This is a compact event-driven trading backend slice built with Java 17 and Spring Boot. The API and service layers are transport-agnostic, and Spring profiles switch between in-memory, Kafka, and Solace implementations. That let me demonstrate clean separation of concerns, messaging integration, Dockerized reproducibility, smoke-tested runtime validation, and benchmark-driven GC decisions in a small, reviewable project.
+
 ## CI
 
 GitHub Actions workflow is defined in `.github/workflows/ci.yml` and runs:
